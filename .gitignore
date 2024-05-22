@@ -3,5 +3,4 @@
 Dockerfile
 .dockerignore
 
-/juco_back/__pycache__/
-
+__pycache__
