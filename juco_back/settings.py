@@ -15,11 +15,6 @@ from pathlib import Path
 import os
 import dj_database_url
 
-from dotenv import load_dotenv
-
-# Cargar variables de entorno desde .env
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,14 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='uuf5mb%$a65#5y007w=%!6u36^hl2e_0ph^2$nd&_-86)64%5(')
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", default="uuf5mb%$a65#5y007w=%!6u36^hl2e_0ph^2$nd&_-86)64%5("
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'RENDER' not in os.environ
+DEBUG = "RENDER" not in os.environ
 
 ALLOWED_HOSTS = []
 
-RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
@@ -56,9 +53,7 @@ THIRD_PARTY_APPS = [
     "corsheaders",
 ]
 
-LOCAL_APPS = [
-    "ecommerce"
-]
+LOCAL_APPS = ["ecommerce"]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -70,7 +65,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",
 ]
 
@@ -102,24 +97,24 @@ WSGI_APPLICATION = "juco_back.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-use_render_db = os.getenv('USE_RENDER_DB', 'False') == 'True'
+use_render_db = os.environ.get("USE_RENDER_DB", "False") == "True"
 
 if use_render_db:
     DATABASES = {
-        'default': dj_database_url.config(
-            default='postgresql://postgres:postgres@localhost/postgres',
-            conn_max_age=600
+        "default": dj_database_url.config(
+            default="postgresql://postgres:postgres@localhost/postgres",
+            conn_max_age=600,
         )
     }
 else:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DATABASE_NAME', 'default_db_name'),
-            'USER': os.getenv('DATABASE_USER', 'default_user'),
-            'PASSWORD': os.getenv('DATABASE_PASSWORD', 'default_password'),
-            'HOST': os.getenv('DATABASE_HOST', 'localhost'),
-            'PORT': os.getenv('DATABASE_PORT', '5432'),
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("DATABASE_NAME", "juco_db"),
+            "USER": os.environ.get("DATABASE_USER", "juco_user"),
+            "PASSWORD": os.environ.get("DATABASE_PASSWORD", "juco_password"),
+            "HOST": os.environ.get("DATABASE_HOST", "juco_db"),
+            "PORT": os.environ.get("DATABASE_PORT", "5432"),
         }
     }
 
@@ -146,9 +141,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'es-co'  # Código de idioma para español de Colombia
+LANGUAGE_CODE = "es-co"  # Código de idioma para español de Colombia
 
-TIME_ZONE = 'America/Bogota'  # Zona horaria de Colombia
+TIME_ZONE = "America/Bogota"  # Zona horaria de Colombia
 
 USE_I18N = True
 
@@ -162,19 +157,19 @@ USE_TZ = False  # Deshabilita el uso de la zona horaria, ya que Colombia usa una
 
 # This setting informs Django of the URI path from which your static files will be served to users
 # Here, they well be accessible at your-domain.onrender.com/static/... or yourcustomdomain.com/static/...
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 # This production code might break development mode, so we check whether we're in DEBUG mode
 if not DEBUG:
     # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
     # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
     # and renames the files with unique names for each version to support long-term caching
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]', '0.0.0.0']
+ALLOWED_HOSTS = ["*"]
