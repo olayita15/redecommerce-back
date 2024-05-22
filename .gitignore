@@ -1,0 +1,7 @@
+.env
+/myenv/
+Dockerfile
+.dockerignore
+
+/juco_back/__pycache__/
+
