@@ -71,6 +71,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:6060",
+    "https://olayita15.github.io/redecommerce"
 ]
 
 ROOT_URLCONF = "juco_back.urls"
