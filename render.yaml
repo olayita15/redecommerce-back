@@ -1,0 +1,22 @@
+databases:
+  - name: juco_back
+    plan: free
+    databaseName: juco_db
+    user: juco_user
+
+services:
+  - type: web
+    plan: free
+    name: juco_service
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "python -m gunicorn mysite.asgi:application -k uvicorn.workers.UvicornWorker"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: juco_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
